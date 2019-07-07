@@ -1,7 +1,9 @@
 package com.ocean.entity;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.Date;
+@TableName("t_user")
 public class User {
     private String id;
 

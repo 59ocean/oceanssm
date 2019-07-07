@@ -24,15 +24,15 @@ import java.util.List;
 public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implements IUserService {
 
 
-@Autowired
-private UserMapper userMapper;
+	@Autowired
+	private UserMapper userMapper;
 
-@Override
-public Page<User> selectPage(UserQuery query) {
-	    Page<User> page= new Page<User>(query.getPageNo(),query.getPageSize());
-
+	@Override
+	public Page<User> selectPage(UserQuery query) {
+		Page<User> page= new Page<User>(query.getPageNo(),query.getPageSize());
 		return page.setRecords(userMapper.selectByQuery(page,query));
-		}
+	}
+
 
 
 

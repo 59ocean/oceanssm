@@ -1,5 +1,7 @@
 server:
   port: 8081
+  servlet:
+    context-path: /ssm
 spring:
   devtools:
     restart:
@@ -34,6 +36,13 @@ spring:
       connect-properties: stat.mergeSql:true;stat.slowSqlMillis=5000
       # 合并多个DruidDataSource的监控数据
       use-global-data-source-stat: true
+  mvc:
+    view:
+      prefix: /page/
+      suffix: .jsp
+  thymeleaf:
+    cache: false
+    enabled: false
 #mybatis
 mybatis-plus:
   mapper-locations: classpath:/mappers/*Mapper.xml

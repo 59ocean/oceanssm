@@ -17,19 +17,19 @@ public class AjaxResponse {
 	public static AjaxResponse error(){
 		AjaxResponse ajaxResponse = new AjaxResponse();
 		ajaxResponse.setMsg("操作失败！");
-		ajaxResponse.code="-1";
+		ajaxResponse.setCode("-1");
 		return ajaxResponse;
 	}
 	public static AjaxResponse errorMsg(String msg){
 		AjaxResponse ajaxResponse = new AjaxResponse();
 		ajaxResponse.setMsg(msg);
-		ajaxResponse.code="-1";
+		ajaxResponse.setCode("-1");
 		return ajaxResponse;
 	}
 	public static AjaxResponse ok(){
 		AjaxResponse ajaxResponse = new AjaxResponse();
 		ajaxResponse.setMsg("操作成功！");
-		ajaxResponse.code="0";
+		ajaxResponse.setCode("0");
 		return ajaxResponse;
 	}
 	public static AjaxResponse okMsg(String msg){
@@ -38,19 +38,20 @@ public class AjaxResponse {
 		ajaxResponse.code="0";
 		return ajaxResponse;
 	}
-	public static AjaxResponse ok(Object data){
+	public static AjaxResponse ok(Object data) {
 		AjaxResponse ajaxResponse = new AjaxResponse();
 		ajaxResponse.setMsg("操作成功！");
-		ajaxResponse.code="0";
+		ajaxResponse.code = "0";
 		ajaxResponse.setData(data);
 		return ajaxResponse;
 	}
-	public String code () {
+
+	public String getCode() {
 		return code;
 	}
 
-	public void setSuccess (String code) {
-		code = code;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getMsg () {
