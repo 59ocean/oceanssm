@@ -86,6 +86,24 @@
         <ul id="nav">
             <li>
                 <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="系统管理">&#xe723;</i>
+                    <cite>系统管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a onclick="xadmin.add_tab('菜单管理','cate.html')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>菜单管理</cite></a>
+                    </li>
+                    <li>
+                        <a onclick="xadmin.add_tab('用户管理','${baseUrl}/page/user/user_list.jsp')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>用户管理管理</cite></a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">
                     <i class="iconfont left-nav-li" lay-tips="会员管理">&#xe6b8;</i>
                     <cite>会员管理</cite>
                     <i class="iconfont nav_right">&#xe697;</i></a>

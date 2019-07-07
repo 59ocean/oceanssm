@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ocean.query.UserQuery;
 import com.ocean.utils.AjaxResponse;
 import com.ocean.utils.MD5;
+import com.ocean.utils.PageResult;
 import org.springframework.stereotype.Controller;
 import com.alibaba.fastjson.JSON;
 import org.springframework.ui.Model;
@@ -88,18 +89,10 @@ private final Logger logger = LoggerFactory.getLogger(UserController.class);
 	 * @return
 	 */
 	@ResponseBody
-	@GetMapping("/getUserPageList")
-	public AjaxResponse getUserList(UserQuery query) {
-
-	    AjaxResponse ajaxResponse = null;
-		try {
-			Page<User> page = iUserService.selectPage(query);
-			ajaxResponse = AjaxResponse.ok(page);
-		} catch (Exception e) {
-		    logger.error("getUserList -=- {}",e.toString());
-			ajaxResponse = AjaxResponse.error();
-		}
-		return ajaxResponse;
+	@GetMapping("/list")
+	public PageResult getUserList(UserQuery query) {
+	    Page<User> page = iUserService.selectPage(query);
+		return PageResult.ok(page.getTotal(),page.getRecords());
 	}
 
 	/**
