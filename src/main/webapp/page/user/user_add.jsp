@@ -120,7 +120,7 @@
                                 });
                         }else{
                             layer.alert(result.msg, {
-                                    icon: 6
+                                    icon: 2
                                 });
                         }
                     }
