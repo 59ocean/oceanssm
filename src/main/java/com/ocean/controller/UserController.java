@@ -2,6 +2,7 @@ package com.ocean.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ocean.entity.BaseEntity;
 import com.ocean.query.UserQuery;
 import com.ocean.utils.AjaxResponse;
 import com.ocean.utils.MD5;
@@ -99,18 +100,17 @@ private final Logger logger = LoggerFactory.getLogger(UserController.class);
 	 * 跳转添加页面
 	 * @param request
 	 * @param response
-	 * @param model
 	 * @return
 	 */
-	@RequestMapping(method=RequestMethod.GET,value="/userAdd")
-	public String userAdd(HttpServletRequest request,HttpServletResponse response,Model model) {
+	@RequestMapping(method=RequestMethod.GET,value="/toAdd")
+	public String userAdd(HttpServletRequest request,HttpServletResponse response) {
 		try {
 
 
 		}catch (Exception ex){
 		    logger.error("userAdd -=- {}",ex.toString());
 		}
-		return "userAdd";
+		return "user/user_add";
 	}
 
 	/**
@@ -137,16 +137,21 @@ private final Logger logger = LoggerFactory.getLogger(UserController.class);
 	 * @return  0 失败  1 成功
 	 */
 	@ResponseBody
-	@RequestMapping(method=RequestMethod.POST,value="/userSave")
-	public int userSave(User user) {
-		int count = 0;
+	@RequestMapping(method=RequestMethod.POST,value="/save")
+	public AjaxResponse userSave(User user) {
+		AjaxResponse result = null;
 		try {
-
-		    count = iUserService.updateById(user) ? 1 : 0;
+			saveBaseEntity(user);
+			user.setStatus(1);
+			user.setPassword(MD5.md5(user.getAccount(),user.getPassword()));
+			iUserService.save(user);
+			System.out.println("+++++============"+user.getId());
+			result = AjaxResponse.ok();
 		} catch (Exception e) {
 		    logger.error("userSave -=- {}",e.toString());
+			result = AjaxResponse.errorMsg(e.getMessage());
 		}
-		return count;
+		return result;
 	}
 
 	/**

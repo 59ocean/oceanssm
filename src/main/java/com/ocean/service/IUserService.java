@@ -17,4 +17,6 @@ import java.util.List;
  */
 public interface IUserService extends BaseService<User> {
 	public Page<User> selectPage(UserQuery query);
+
+	void insertUser (User user);
 }

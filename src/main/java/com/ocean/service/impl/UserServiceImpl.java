@@ -29,8 +29,13 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 
 	@Override
 	public Page<User> selectPage(UserQuery query) {
-		Page<User> page= new Page<User>(query.getPageNo(),query.getPageSize());
+		Page<User> page= new Page<User>(query.getPage(),query.getLimit());
 		return page.setRecords(userMapper.selectByQuery(page,query));
+	}
+
+	@Override
+	public void insertUser(User user){
+		userMapper.insertUser(user);
 	}
 
 

@@ -55,14 +55,14 @@
                 </div>
                 <div class="layui-card-header">
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                    <button class="layui-btn" onclick="xadmin.open('添加用户','./admin-add.html',600,400)"><i class="layui-icon"></i>添加</button>
+                    <button class="layui-btn" onclick="xadmin.open('添加用户','${baseUrl}/user/toAdd',500,400)"><i class="layui-icon"></i>添加</button>
                 </div>
                 <div class="layui-card-body ">
                     <table class="layui-table layui-form" id="dataTable">
 
                     </table>
                 </div>
-                <div class="layui-card-body ">
+             <%--   <div class="layui-card-body ">
                     <div class="page">
                         <div>
                             <a class="prev" href="">&lt;&lt;</a>
@@ -73,12 +73,33 @@
                             <a class="next" href="">&gt;&gt;</a>
                         </div>
                     </div>
-                </div>
+                </div>--%>
             </div>
         </div>
     </div>
 </div>
 </body>
+<script type="text/html" id="toobar">
+    {{#  if(d.status = 1){ }}
+    <a onclick="member_stop(this,'10001')" href="javascript:;"  title="禁用">
+        <i class="layui-icon">&#xe601;</i>
+    </a>
+    {{#  } else { }}
+    <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
+        <i class="layui-icon">&#xe601;</i>
+    </a>
+    {{#  } }}
+
+    <a title="编辑"  onclick="xadmin.open('编辑','member-edit.html',600,400)" href="javascript:;">
+        <i class="layui-icon">&#xe642;</i>
+    </a>
+    <a onclick="xadmin.open('修改密码','member-password.html',600,400)" title="修改密码" href="javascript:;">
+        <i class="layui-icon">&#xe631;</i>
+    </a>
+    <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+        <i class="layui-icon">&#xe640;</i>
+    </a>
+</script>
 <script>
     layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function(){
         var layer = layui.layer; //弹层
@@ -96,8 +117,8 @@
             url: '${baseUrl}/user/list',
             method : 'GET', //方式
             page : true,//是否开启分页
-            limits : [ 10, 20, 30, 60, 90, 100 ],
-            limit : 20, //默认采用20
+            limits : [ 5, 10, 20, 30, 50, 100 ],
+            limit : 5, //默认采用20
             cellMinWidth: 120,
             even : true, //开启隔行背景
             id : 'searchID',
@@ -107,7 +128,7 @@
                 console.log("count",count)
                 //加载后回调
                 layer.close(index);//关闭
-                noAuthTip(res);//无权限提示
+               // noAuthTip(res);//无权限提示
             },
             cols : [ [ //标题栏
                 {checkbox: true},

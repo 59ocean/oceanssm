@@ -1,12 +1,17 @@
 package com.ocean.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.util.Date;
+/**
+ * @author chenhy
+ */
 @TableName("t_user")
-public class User {
+public class User extends BaseEntity {
+    @TableId(type = IdType.UUID)
     private String id;
-
     private String account;
 
     private String username;
@@ -17,19 +22,11 @@ public class User {
 
     private String email;
 
-    private String status;
+    private Integer status;
 
     private String deptId;
 
     private String remark;
-
-    private String creator;
-
-    private Date createTime;
-
-    private String updator;
-
-    private Date updateTime;
 
     public String getId() {
         return id;
@@ -79,12 +76,12 @@ public class User {
         this.email = email == null ? null : email.trim();
     }
 
-    public String getStatus() {
+    public Integer getStatus () {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+    public void setStatus (Integer status) {
+        this.status = status;
     }
 
     public String getDeptId() {
@@ -103,35 +100,4 @@ public class User {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator == null ? null : creator.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getUpdator() {
-        return updator;
-    }
-
-    public void setUpdator(String updator) {
-        this.updator = updator == null ? null : updator.trim();
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 }

@@ -5,22 +5,22 @@ package com.ocean.query;
  * @date @time 2019/6/27 11:39
  */
 public class PageQuery {
-	private int pageNo = 1;
-	private int pageSize = 10;
+	private int page = 1;
+	private int limit = 10;
 
-	public int getPageNo () {
-		return pageNo;
+	public int getPage () {
+		return page;
 	}
 
-	public void setPageNo (int pageNo) {
-		this.pageNo = pageNo;
+	public void setPage (int page) {
+		this.page = page;
 	}
 
-	public int getPageSize () {
-		return pageSize;
+	public int getLimit () {
+		return limit;
 	}
 
-	public void setPageSize (int pageSize) {
-		this.pageSize = pageSize;
+	public void setLimit (int limit) {
+		this.limit = limit;
 	}
 }

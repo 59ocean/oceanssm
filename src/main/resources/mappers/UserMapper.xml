@@ -8,7 +8,7 @@
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
     <result column="dept_id" property="deptId" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
@@ -38,6 +38,9 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insertUser" parameterType="com.ocean.entity.User" >
+    <selectKey  keyProperty="id" resultType="java.lang.String" order="BEFORE">
+                 select replace(uuid(),'-','')
+    </selectKey>
     insert into t_user (id, account, username, 
       password, phone, email, 
       status, dept_id, remark, 
@@ -45,7 +48,7 @@
       update_time)
     values (#{id,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{deptId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
       #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -112,7 +115,7 @@
         #{email,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=VARCHAR},
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="deptId != null" >
         #{deptId,jdbcType=VARCHAR},
@@ -153,7 +156,7 @@
         email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=VARCHAR},
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="deptId != null" >
         dept_id = #{deptId,jdbcType=VARCHAR},
@@ -183,7 +186,7 @@
       password = #{password,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
       dept_id = #{deptId,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=VARCHAR},

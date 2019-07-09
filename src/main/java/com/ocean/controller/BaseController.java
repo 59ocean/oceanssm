@@ -1,11 +1,14 @@
 package com.ocean.controller;
 
+import com.ocean.entity.BaseEntity;
+import com.ocean.entity.User;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 /**
  * @author chenhy
@@ -40,4 +43,14 @@ public class BaseController {
 	protected HttpSession getSession() {
 		return getRequest().getSession();
 	}
+
+	public BaseEntity saveBaseEntity(BaseEntity entity){
+		User user = (User) getRequest().getSession().getAttribute("user");
+		entity.setCreateTime(new Date());
+		entity.setCreator(user.getUsername());
+		return entity;
+	}
+
+
+
 }
