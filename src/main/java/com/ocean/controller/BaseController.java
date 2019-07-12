@@ -50,6 +50,12 @@ public class BaseController {
 		entity.setCreator(user.getUsername());
 		return entity;
 	}
+	public BaseEntity updateBaseEntity(BaseEntity entity){
+		User user = (User) getRequest().getSession().getAttribute("user");
+		entity.setUpdateTime(new Date());
+		entity.setUpdator(user.getUsername());
+		return entity;
+	}
 
 
 

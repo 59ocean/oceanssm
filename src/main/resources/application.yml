@@ -68,6 +68,7 @@ mybatis-plus:
     #meta-object-handler: com.baomidou.springboot.xxx
     #自定义SQL注入器
     #sql-injector: com.baomidou.springboot.xxx
+    enable-sql-runner: true
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false

@@ -26,11 +26,15 @@
     from t_user
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <select id="selectByQuery" resultType="com.ocean.entity.User" parameterType="com.ocean.query.UserQuery">
+  <select id="selectByQuery" resultType="com.ocean.entity.User">
     select
     <include refid="Base_Column_List" />
-    from t_user
+    from t_user t
     where 1=1
+    <if test="query.username != null">
+      and t.username like CONCAT(CONCAT('%', #{query.username}), '%')
+    </if>
+    order by t.account asc
 
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >

@@ -119,17 +119,54 @@ private final Logger logger = LoggerFactory.getLogger(UserController.class);
 	 * @param id  实体ID
 	 * @return
 	 */
-	@RequestMapping(method=RequestMethod.GET,value="/userUpdate")
-	public String userUpdate(HttpServletRequest request,Long id) {
+	@RequestMapping(method=RequestMethod.GET,value="/toEdit")
+	public String toEdit(HttpServletRequest request,String id) {
 		try {
             User user = iUserService.getById(id);
-		    request.setAttribute("user",user);
+		    request.setAttribute("u",user);
 		}catch (Exception ex){
 
 		    logger.error("userUpdate -=- {}",ex.toString());
 		}
-		return "userUpd";
+		return "user/user_edit";
 	}
+
+	/**
+	 * 跳转修改页面
+	 * @param request
+	 * @param id  实体ID
+	 * @return
+	 */
+	@RequestMapping(method=RequestMethod.GET,value="/view")
+	public String view(HttpServletRequest request,String id) {
+		try {
+			User user = iUserService.getById(id);
+			request.setAttribute("u",user);
+		}catch (Exception ex){
+			logger.error("userUpdate -=- {}",ex.toString());
+		}
+		return "user/user_view";
+	}
+	/**
+	 * 更新操作
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(method=RequestMethod.POST,value="/update")
+	public AjaxResponse userUpdate(HttpServletRequest request,User user) {
+		AjaxResponse ajaxResponse = null;
+		try {
+			updateBaseEntity(user);
+			iUserService.updateById(user);
+			ajaxResponse = AjaxResponse.ok();
+		}catch (Exception ex){
+			ajaxResponse = AjaxResponse.errorMsg(ex.toString());
+			logger.error("userUpdate -=- {}",ex.toString());
+		}
+		return ajaxResponse;
+	}
+
 
 	/**
 	 * 保存和修改公用的
@@ -160,15 +197,18 @@ private final Logger logger = LoggerFactory.getLogger(UserController.class);
 	 * @return 0 失败  1 成功
 	 */
 	@ResponseBody
-	@RequestMapping(method= RequestMethod.POST,value="/userDelete")
-	public int userDelete(String id){
-		int count = 0;
+	@RequestMapping(method= RequestMethod.POST,value="/delete")
+	public AjaxResponse userDelete(String id){
+		AjaxResponse result = null;
 		try {
-		    count = iUserService.delete(id) ? 1 : 0;
+		    iUserService.delete(id);
+			result = AjaxResponse.ok();
 		}catch (Exception e){
+			e.printStackTrace();
 			logger.error("userDelete -=- {}",e.toString());
+			result = AjaxResponse.errorMsg(e.getMessage());
 		}
-		return count;
+		return result;
 	}
 
 	/**
@@ -185,6 +225,7 @@ private final Logger logger = LoggerFactory.getLogger(UserController.class);
 			List<String> ids = (List<String>) JSON.parse(item);
 		count = iUserService.deleteByListId(ids) ? 1 : 0;
 		}catch (Exception e){
+			e.printStackTrace();
 		    logger.error("userBatchDelete -=- {}",e.toString());
 		}
 		return count;

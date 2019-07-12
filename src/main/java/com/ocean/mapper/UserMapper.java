@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ocean.entity.User;
 import com.ocean.query.UserQuery;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     User selectByPrimaryKey(String id);
 
-    List<User> selectByQuery(Page<User> page, UserQuery query);
+    List<User> selectByQuery(Page<User> page, @Param("query") UserQuery query);
 
     int updateByPrimaryKeySelective(User record);
 

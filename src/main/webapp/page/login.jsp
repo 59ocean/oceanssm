@@ -5,20 +5,23 @@
   Time: 21:30
   To change this template use File | Settings | File Templates.
 --%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html;charset=UTF-8" language="java"  %>
 <%@include file="BaseContext.jsp"%>
-<html  class="x-admin-sm">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>后台登录-X-admin2.2</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link rel="stylesheet" href="${baseUrl}/css/font.css">
-    <link rel="stylesheet" href="${baseUrl}/css/login.css">
-    <link rel="stylesheet" href="${baseUrl}/css/xadmin.css">
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="${baseUrl}/css/font.css"/>
+    <link rel="stylesheet" href="${baseUrl}/css/login.css"/>
+    <link rel="stylesheet" href="${baseUrl}/css/xadmin.css"/>
     <script src="${baseUrl}/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="${baseUrl}/js/jquery.min.js"></script>
+
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -41,8 +44,10 @@
 </div>
 
 <script>
+
     $(function  () {
-        layui.use('form', function(){
+        layui.use(['layer','form'], function(){
+            var layer = layui.layer
             var form = layui.form;
             // layer.msg('玩命卖萌中', function(){
             //   //关闭后的操作
@@ -51,7 +56,7 @@
             form.on('submit(login)', function(data){
                 // alert(888)
                 console.log(data.field)
-               $.ajax({
+                $.ajax({
                     type:"POST",
                     url:"${baseUrl}/user/login",
                     data:data.field,
@@ -85,4 +90,5 @@
     })();
 </script>
 </body>
+<script type="text/javascript" src="${baseUrl}/js/jquery.min.js"></script>
 </html>
