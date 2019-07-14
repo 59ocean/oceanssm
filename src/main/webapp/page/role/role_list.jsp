@@ -1,0 +1,176 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="../BaseContext.jsp"%>
+<html class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>role</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="${baseUrl}/css/font.css">
+    <link rel="stylesheet" href="${baseUrl}/css/xadmin.css">
+    <script src="${baseUrl}/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="${baseUrl}/js/xadmin.js"></script>
+</head>
+<body>
+
+
+<div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="">系统管理</a>
+            <a href="">角色表管理</a>
+            <a>
+              <cite>角色表列表</cite></a>
+          </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5">
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="roleName"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn" lay-submit lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-card-header">
+                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+                    <button class="layui-btn" onclick="xadmin.open('添加角色','${baseUrl}/role/toAdd',500,400)"><i class="layui-icon"></i>添加</button>
+                </div>
+                <div class="layui-card-body ">
+                    <table class="layui-table layui-form" id="dataTable">
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/html" id="toobar">
+    <a title="查看"  onclick="xadmin.open('查看','${baseUrl}/role/view?id={{d.id}}',600,400)" href="javascript:;">
+        <i class="layui-icon">&#xe656;</i>
+    </a>
+    <a title="编辑"  onclick="xadmin.open('编辑','${baseUrl}/role/toEdit?id={{d.id}}',600,400)" href="javascript:;">
+        <i class="layui-icon">&#xe642;</i>
+    </a>
+    <a title="删除" onclick="del(this,'{{d.id}}')" href="javascript:;">
+        <i class="layui-icon">&#xe640;</i>
+    </a>
+</script>
+<script>
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function(){
+        var layer = layui.layer; //弹层
+        var laydate = layui.laydate; //日期
+        var laypage = layui.laypage; //分页
+        var table = layui.table; //表格
+        var carousel = layui.carousel; //轮播
+        var upload = layui.upload; //上传
+        var element = layui.element; //元素操作
+        var form = layui.form;
+        var index = layer.load(1);//开启进度条
+        //绑定table
+        var tableIn = table.render({
+            elem: '#dataTable' ,//table id
+            url: '${baseUrl}/role/list',
+            method : 'GET', //方式
+            page : true,//是否开启分页
+            limits : [ 5, 10, 20, 30, 50, 100 ],
+            limit : 5, //默认采用20
+            cellMinWidth: 120,
+            even : true, //开启隔行背景
+            id : 'searchID',
+            done: function(res, curr, count){
+                console.log("res",res);
+                console.log("curr",curr);
+                console.log("count",count)
+                //加载后回调
+                layer.close(index);//关闭
+                // noAuthTip(res);//无权限提示
+            },
+            cols : [ [ //标题栏
+                {checkbox: true},
+                 {field : 'roleName',title : '角色名称',align : 'center',sort : true},
+                 {field : 'remark',title : '备注',align : 'center',sort : true},
+                {fixed : 'right',title : '操作',align : 'center',toolbar : '#toobar',width : '20%'},
+            ] ]
+        });
+        form.on('submit(search)', function(data){
+            console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+            console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            tableIn.reload({
+                where: data.field
+                ,page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '' //指定元素
+        });
+    });
+
+    /*role删除*/
+    function del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+            $.ajax({
+                url:"${baseUrl}/role/delete",
+                type:"POST",
+                data:{id:id},
+                dataType:"json",
+                success:function(result){
+                    if(result.code == '0'){
+                        layer.alert("删除成功！", {
+                                    icon: 6
+                                },
+                                function() {
+                                    //关闭当前frame
+                                    xadmin.close();
+
+                                    // 可以对父窗口进行刷新
+                                    xadmin.father_reload();
+                                });
+                    }else{
+                        layer.alert(result.msg, {
+                            icon: 2
+                        });
+                    }
+                }
+            })
+        });
+    }
+
+
+
+    function delAll (argument) {
+
+        var data = tableCheck.getData();
+
+        layer.confirm('确认要删除吗？'+data,function(index){
+            //捉到所有被选中的，发异步进行删除
+            layer.msg('删除成功', {icon: 1});
+            $(".layui-form-checked").not('.header').parents('tr').remove();
+        });
+    }
+</script>
+<script>var _hmt = _hmt || []; (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();</script>
+</html>
