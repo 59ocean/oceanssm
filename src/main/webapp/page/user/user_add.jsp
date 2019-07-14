@@ -59,8 +59,9 @@
                 <div class="layui-input-inline">
                     <select id="L_roleID" name="roleId">
                         <option value="">请选择</option>
-                        <option value="">北京</option>
-                        <option value="">商户</option>
+                        <c:forEach var="role" items="${roleList}">
+                            <option value="${role.id}">${role.roleName}</option>
+                        </c:forEach>
                     </select>
                 </div>
             </div>

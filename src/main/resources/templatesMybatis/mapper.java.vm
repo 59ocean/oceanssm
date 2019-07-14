@@ -2,7 +2,11 @@ package ${package.Mapper};
 
 import ${package.Entity}.${entity};
 import ${superMapperClassPackage};
-
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import java.util.List;
+import com.ocean.query.${entity}Query;
 /**
  * <p>
  * $!{table.comment} Mapper 接口
@@ -12,5 +16,5 @@ import ${superMapperClassPackage};
  * @since ${date}
  */
 public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
-
+    List<${entity}> selectByQuery(Page<${entity}> page, @Param("query") ${entity}Query query);
 }

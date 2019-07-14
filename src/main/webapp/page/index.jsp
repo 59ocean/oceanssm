@@ -91,14 +91,19 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('菜单管理','cate.html')">
+                        <a onclick="xadmin.add_tab('菜单管理','${baseUrl}/menu/toList')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>菜单管理</cite></a>
                     </li>
                     <li>
                         <a onclick="xadmin.add_tab('用户管理','${baseUrl}/page/user/user_list.jsp')">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>用户管理管理</cite></a>
+                            <cite>用户管理</cite></a>
+                    </li>
+                    <li>
+                        <a onclick="xadmin.add_tab('角色管理','${baseUrl}/role/toList')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>角色管理</cite></a>
                     </li>
                 </ul>
             </li>

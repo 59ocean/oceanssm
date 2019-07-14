@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ocean
-  Date: 2019/7/7
-  Time: 17:29
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../BaseContext.jsp"%>
 <html class="x-admin-sm">
@@ -25,10 +18,10 @@
 <body>
 <div class="x-nav">
           <span class="layui-breadcrumb">
-            <a href="">首页</a>
-            <a href="">演示</a>
+            <a href="">系统管理</a>
+            <a href="">用户管理</a>
             <a>
-              <cite>导航元素</cite></a>
+              <cite>用户列表</cite></a>
           </span>
     <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
@@ -48,27 +41,17 @@
                         </div>
                     </form>
                 </div>
-                <div class="layui-card-header">
-                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+                <script type="text/html" id="toolbarDemo">
+                    <div class = "layui-btn-container" >
+                    <button class="layui-btn layui-btn-danger" lay-event="batchDel"><i class="layui-icon"></i>批量删除</button>
                     <button class="layui-btn" onclick="xadmin.open('添加用户','${baseUrl}/user/toAdd',500,400)"><i class="layui-icon"></i>添加</button>
-                </div>
+                    </div>
+                </script>
                 <div class="layui-card-body ">
-                    <table class="layui-table layui-form" id="dataTable">
+                    <table class="layui-table layui-form" id="dataTable" lay-filter="test">
 
                     </table>
                 </div>
-             <%--   <div class="layui-card-body ">
-                    <div class="page">
-                        <div>
-                            <a class="prev" href="">&lt;&lt;</a>
-                            <a class="num" href="">1</a>
-                            <span class="current">2</span>
-                            <a class="num" href="">3</a>
-                            <a class="num" href="">489</a>
-                            <a class="next" href="">&gt;&gt;</a>
-                        </div>
-                    </div>
-                </div>--%>
             </div>
         </div>
     </div>
@@ -115,6 +98,7 @@
             limits : [ 5, 10, 20, 30, 50, 100 ],
             limit : 5, //默认采用20
             cellMinWidth: 120,
+            toolbar: '#toolbarDemo',
             even : true, //开启隔行背景
             id : 'searchID',
             done: function(res, curr, count){
@@ -156,6 +140,50 @@
         laydate.render({
             elem: '#end' //指定元素
         });
+        function batchAll() {
+            var checkStatus = table.checkStatus('searchID');
+            var data = checkStatus.data;
+            console.log(data)
+            var ids = data.map(function(value){
+                return value.id
+            })
+            console.log(ids)
+            $.ajax({
+                url:"${baseUrl}/user/batchDelete",
+                type:"POST",
+                data:{item:JSON.stringify(ids)},
+                dataType:"json",
+                success:function(result){
+                    if(result.code == '0'){
+                        layer.alert("刪除成功！", {
+                                icon: 6
+                            },
+                            function() {
+                                //关闭当前frame
+                                xadmin.close();
+
+                                // 可以对父窗口进行刷新
+                                xadmin.father_reload();
+                            });
+                    }else{
+                        layer.alert(result.msg, {
+                            icon: 2
+                        });
+                    }
+                }
+            })
+        }
+        //头工具栏事件
+        table.on('toolbar(test)',
+            function(obj) {
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch (obj.event) {
+                    case 'batchDel':
+                        batchAll();
+                        break;
+
+                };
+            });
     });
 
     /*用户-停用*/

@@ -9,16 +9,16 @@ import org.springframework.stereotype.Controller;
 #if(${superControllerClassPackage})
 import ${superControllerClassPackage};
 #end
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.alibaba.fastjson.JSON;
-import com.dcy.constant.Constant;
-import com.dcy.model.BootStrapTable;
+import com.ocean.utils.PageResult;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import com.ocean.utils.AjaxResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ${package.Service}.${table.serviceName};
@@ -29,7 +29,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
+import com.ocean.query.${entity}Query;
+import org.springframework.web.servlet.ModelAndView;
 /**
  *
  * @author ${author}
@@ -40,7 +41,7 @@ import java.util.Map;
 #else
 @Controller
 #end
-@RequestMapping("/a#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+@RequestMapping("/${table.entityPath}")
 #if(${superControllerClass})
 public class ${table.controllerName} extends ${superControllerClass} {
 #else
@@ -49,126 +50,160 @@ public class ${table.controllerName} {
 private final Logger logger = LoggerFactory.getLogger(${table.controllerName}.class);
 
 @Autowired
-public ${table.serviceName} i${entity}Service;
+public ${table.serviceName} ${table.entityPath}Service;
 
-/**
- * 跳转列表页面
- * @param request
- * @param model
- * @return
- */
-@RequestMapping(method= RequestMethod.GET,value = {"/${table.entityPath}Index"})
-public String index(HttpServletRequest request, Model model) {
-		return "${table.entityPath}ListIndex";
-		}
+	/**
+	 * 跳转列表页面
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(method= RequestMethod.GET,value = "/toList")
+	public ModelAndView to${table.entityPath}List(HttpServletRequest request) {
+		return new ModelAndView("${table.entityPath}/${table.entityPath}_list");
+	}
 
-/**
- * 分页查询数据
- *
- * @param bootStrapTable  分页信息
- * @param ${table.entityPath}   查询条件
- * @return
- */
-@ResponseBody
-@GetMapping("/get${entity}PageList")
-public Map<String, Object> get${entity}List(BootStrapTable<${entity}> bootStrapTable,${entity} ${table.entityPath}) {
-		Map<String,Object> result = new HashMap<String,Object>();
-		try {
-		result = bootStrapTable.setRows(i${entity}Service.selectPage(bootStrapTable,${table.entityPath}));
-		} catch (Exception e) {
-		logger.error("get${entity}List -=- {}",e.toString());
-		result.put(Constant.BOOTSTAP_TABLE_ROWS, new ArrayList<>());
-		result.put(Constant.BOOTSTRAP_TABLE_TOTAL, 0);
-		}
-		return result;
-		}
+	/**
+	 * 分页查询数据
+	 *
+	 * @param query   查询条件
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/list")
+	public PageResult get${entity}List(${entity}Query query) {
+        Page<${entity}> page = ${table.entityPath}Service.selectPage(query);
+        return PageResult.ok(page.getTotal(),page.getRecords());
+	}
 
-/**
- * 跳转添加页面
- * @param request
- * @param response
- * @param model
- * @return
- */
-@RequestMapping(method=RequestMethod.GET,value="/${table.entityPath}Add")
-public String ${table.entityPath}Add(HttpServletRequest request,HttpServletResponse response,Model model) {
+	/**
+	 * 跳转添加页面
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(method=RequestMethod.GET,value="/toAdd")
+	public String ${table.entityPath}Add(HttpServletRequest request,HttpServletResponse response) {
 		try {
 
 
 		}catch (Exception ex){
 		logger.error("${table.entityPath}Add -=- {}",ex.toString());
 		}
-		return "${table.entityPath}Add";
-		}
-
-/**
- * 跳转修改页面
- * @param request
- * @param id  实体ID
- * @return
- */
-@RequestMapping(method=RequestMethod.GET,value="/${table.entityPath}Update")
-public String ${table.entityPath}Update(HttpServletRequest request,Long id) {
+		return "${table.entityPath}/${table.entityPath}_add";
+	}
+	/**
+	 * 保存
+	 * @param ${table.entityPath}  传递的实体
+	 * @return  0 失败  1 成功
+	 */
+	@ResponseBody
+	@RequestMapping(method=RequestMethod.POST,value="/save")
+	public AjaxResponse ${table.entityPath}Save(${entity} ${table.entityPath}) {
+		AjaxResponse result = null;
 		try {
-    ${entity} ${table.entityPath} = i${entity}Service.selectById(id);
-		request.setAttribute("${table.entityPath}",${table.entityPath});
-		}catch (Exception ex){
-		logger.error("${table.entityPath}Update -=- {}",ex.toString());
-		}
-		return "${table.entityPath}Upd";
-		}
-
-/**
- * 保存和修改公用的
- * @param ${table.entityPath}  传递的实体
- * @return  0 失败  1 成功
- */
-@ResponseBody
-@RequestMapping(method=RequestMethod.POST,value="/${table.entityPath}Save")
-public int ${table.entityPath}Save(${entity} ${table.entityPath}) {
-		int count = 0;
-		try {
-		count = i${entity}Service.insertOrUpdate(${table.entityPath}) ? 1 : 0;
+			saveBaseEntity(${table.entityPath});
+			${table.entityPath}Service.save(${table.entityPath});
+			result = AjaxResponse.ok();
 		} catch (Exception e) {
-		logger.error("${table.entityPath}Save -=- {}",e.toString());
+			logger.error("${table.entityPath}Save -=- {}",e.toString());
+			result = AjaxResponse.errorMsg(e.toString());
 		}
-		return count;
-		}
+		return result;
+	}
 
-/**
- * 根据id删除对象
- * @param id  实体ID
- * @return 0 失败  1 成功
- */
-@ResponseBody
-@RequestMapping(method= RequestMethod.POST,value="/${table.entityPath}Delete")
-public int ${table.entityPath}Delete(Long id){
-		int count = 0;
+	/**
+	 * 跳转修改页面
+	 * @param request
+	 * @param id  实体ID
+	 * @return
+	 */
+	@RequestMapping(method=RequestMethod.GET,value="/toEdit")
+	public String to${table.entityPath}Edit(HttpServletRequest request,String id) {
 		try {
-		count = i${entity}Service.deleteById(id) ? 1 : 0;
-		}catch (Exception e){
-		logger.error("${table.entityPath}Delete -=- {}",e.toString());
+			${entity} ${table.entityPath} = ${table.entityPath}Service.getById(id);
+			request.setAttribute("${table.entityPath}",${table.entityPath});
+		}catch (Exception ex){
+			logger.error("${table.entityPath}Update -=- {}",ex.toString());
 		}
-		return count;
-		}
+		return "${table.entityPath}/${table.entityPath}_edit";
+	}
 
-/**
- * 批量删除对象
- * @param item 实体集合ID
- * @return  0 失败  1 成功
- */
-@ResponseBody
-@RequestMapping(method= RequestMethod.POST,value="/${table.entityPath}BatchDelete")
-public int deleteBatchIds(String item){
-		int count = 0;
+	/**
+	* 更新
+	* @param ${table.entityPath}  传递的实体
+	* @return  0 失败  1 成功
+	*/
+	@ResponseBody
+	@RequestMapping(method=RequestMethod.POST,value="/update")
+	public AjaxResponse ${table.entityPath}Update(${entity} ${table.entityPath}) {
+        AjaxResponse result = null;
 		try {
-		List<Long> ids = (List<Long>) JSON.parse(item);
-		count = i${entity}Service.deleteBatchIds(ids) ? 1 : 0;
+			updateBaseEntity(${table.entityPath});
+			${table.entityPath}Service.updateById(${table.entityPath});
+			result = AjaxResponse.ok();
+		} catch (Exception e) {
+			logger.error("${table.entityPath}Save -=- {}",e.toString());
+			result = AjaxResponse.errorMsg(e.toString());
+		}
+		return result;
+	}
+
+	/**
+	 * 跳转詳情页面
+	 * @param request
+	 * @param id  实体ID
+	 * @return
+	 */
+	@RequestMapping(method=RequestMethod.GET,value="/view")
+	public String view(HttpServletRequest request,String id) {
+		try {
+			${entity} ${table.entityPath} = ${table.entityPath}Service.getById(id);
+			request.setAttribute("${table.entityPath}",${table.entityPath});
+		}catch (Exception ex){
+			logger.error("${table.entityPath}Update -=- {}",ex.toString());
+		}
+		return "${table.entityPath}/${table.entityPath}_view";
+	}
+
+	/**
+	 * 根据id删除对象
+	 * @param id  实体ID
+	 * @return 0 失败  1 成功
+	 */
+	@ResponseBody
+	@RequestMapping(method= RequestMethod.POST,value="/delete")
+	public AjaxResponse ${table.entityPath}Delete(String id){
+        AjaxResponse result = null;
+		try {
+	        ${table.entityPath}Service.removeById(id);
+			result = AjaxResponse.ok();
 		}catch (Exception e){
-		logger.error("${table.entityPath}BatchDelete -=- {}",e.toString());
+			logger.error("${table.entityPath}Delete -=- {}",e.toString());
+			result = AjaxResponse.errorMsg(e.toString());
 		}
-		return count;
-		}
+		return result;
+	}
+
+	/**
+	 * 批量删除对象
+	 * @param item 实体集合ID
+	 * @return  0 失败  1 成功
+	 */
+	@ResponseBody
+	@RequestMapping(method= RequestMethod.POST,value="/batchDelete")
+	public AjaxResponse deleteBatchIds(String item){
+        AjaxResponse result = null;
+        try {
+			List<String> ids = (List<String>) JSON.parse(item);
+			${table.entityPath}Service.removeByIds(ids);
+			result = AjaxResponse.ok();
+        }catch (Exception e){
+			e.printStackTrace();
+			logger.error("${table.entityPath}Delete -=- {}",e.toString());
+			result = AjaxResponse.errorMsg(e.getMessage());
+        }
+        return result;
+	}
 
 
 }

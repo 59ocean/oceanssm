@@ -2,11 +2,11 @@ package com.ocean.service.impl;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ocean.entity.User;
 import com.ocean.mapper.UserMapper;
 import com.ocean.query.UserQuery;
 import com.ocean.service.IUserService;
-import com.ocean.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implements IUserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUserService {
 
 
 	@Autowired

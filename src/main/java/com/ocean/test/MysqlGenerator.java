@@ -41,7 +41,7 @@ public class MysqlGenerator extends GeneratorTest {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("E://test//");
+        gc.setOutputDir("E://快速开发框架//oceanssm//src//main//java");
         gc.setFileOverride(true);
         gc.setActiveRecord(true);// 不需要ActiveRecord特性的请改为false
         gc.setEnableCache(false);// XML 二级缓存
@@ -80,21 +80,21 @@ public class MysqlGenerator extends GeneratorTest {
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
         strategy.setTablePrefix(new String[] { "t_" });// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        strategy.setInclude(new String[] { "t_user","t_role" }); // 需要生成的表
+        strategy.setInclude(new String[] { "t_menu" }); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类
+        strategy.setRestControllerStyle(false);
         strategy.setSuperEntityClass("com.ocean.entity.BaseEntity");
         // 自定义实体，公共字段
         strategy.setSuperEntityColumns(new String[] { "create_time", "creator","updator","update_time" });
         // 自定义 mapper 父类
-	    strategy.setSuperMapperClass("com.baomidou.mybatisplus.mapper.BaseMapper");
+	    strategy.setSuperMapperClass("com.baomidou.mybatisplus.core.mapper.BaseMapper");
         // 自定义 service 父类
-	    strategy.setSuperServiceClass("com.ocean.service.BaseService");
+	    strategy.setSuperServiceClass("import com.baomidou.mybatisplus.extension.service.IService");
         // 自定义 service 实现类父类
-        strategy.setSuperServiceImplClass("com.ocean.service.impl.BaseServiceImpl");
+        strategy.setSuperServiceImplClass("import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl");
         // 自定义 controller 父类
         strategy.setSuperControllerClass("com.ocean.controller.BaseController");
-        strategy.setRestControllerStyle(true);
         // 【实体】是否生成字段常量（默认 false）
         // public static final String ID = "test_id";
         strategy.setEntityColumnConstant(true);
@@ -126,7 +126,7 @@ public class MysqlGenerator extends GeneratorTest {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
-                return "E://test//html//" + tableInfo.getEntityName() + "ListIndex.html";
+                return "E://快速开发框架//oceanssm//src//main//webapp//page//"+tableInfo.getEntityPath()+"//" + tableInfo.getEntityPath() + "_list.jsp";
             }
         });
         cfg.setFileOutConfigList(focList);
@@ -137,7 +137,7 @@ public class MysqlGenerator extends GeneratorTest {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
-                return "E://test//html//" + tableInfo.getEntityName() + "Add.html";
+                return "E://快速开发框架//oceanssm//src//main//webapp//page//"+tableInfo.getEntityPath()+"//" + tableInfo.getEntityPath() + "_add.jsp";
             }
         });
         cfg.setFileOutConfigList(focList);
@@ -148,7 +148,18 @@ public class MysqlGenerator extends GeneratorTest {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
-                return "E://test//html//" + tableInfo.getEntityName() + "Update.html";
+                return "E://快速开发框架//oceanssm//src//main//webapp//page//"+tableInfo.getEntityPath()+"//" + tableInfo.getEntityPath() + "_edit.jsp";
+            }
+        });
+        //  自定义 view.html生成
+        focList.add(new FileOutConfig("/templatesMybatis/view.html.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                System.out.println(tableInfo.getComment());
+                System.out.println(tableInfo.getEntityName());
+                System.out.println(tableInfo.getEntityPath());
+                // 自定义输入文件名称
+                return "E://快速开发框架//oceanssm//src//main//webapp//page//"+tableInfo.getEntityPath()+"//" + tableInfo.getEntityPath() + "_view.jsp";
             }
         });
         cfg.setFileOutConfigList(focList);
@@ -176,6 +187,7 @@ public class MysqlGenerator extends GeneratorTest {
 
         // 打印注入设置【可无】
         System.err.println(mpg.getCfg().getMap().get("abc"));
+
     }
 
 }

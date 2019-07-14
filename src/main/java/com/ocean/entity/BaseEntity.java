@@ -6,7 +6,7 @@ import java.util.Date;
  * @author chenhy
  * @date @time 2019/6/25 15:40
  */
-public class BaseEntity {
+public class BaseEntity<T> {
 	private String creator;
 	private Date createTime;
 	private String updator;

@@ -1,30 +1,28 @@
 package com.ocean.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ocean.entity.BaseEntity;
+import com.ocean.entity.Role;
+import com.ocean.entity.User;
 import com.ocean.query.UserQuery;
+import com.ocean.service.IRoleService;
+import com.ocean.service.IUserService;
 import com.ocean.utils.AjaxResponse;
 import com.ocean.utils.MD5;
 import com.ocean.utils.PageResult;
-import org.springframework.stereotype.Controller;
-import com.alibaba.fastjson.JSON;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.ocean.service.IUserService;
-import com.ocean.entity.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.servlet.ModelAndView;
-
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +38,9 @@ public class UserController extends BaseController {
 private final Logger logger = LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	public IUserService iUserService;
+	@Autowired
+	public IRoleService roleService;
+
 	@ResponseBody
 	@RequestMapping(method= RequestMethod.POST,value = {"/login"})
 	public AjaxResponse login(String account,String password){
@@ -47,7 +48,7 @@ private final Logger logger = LoggerFactory.getLogger(UserController.class);
 		try {
 			Map<String,Object> params = new HashMap<>();
 			 params.put("account",account);
-			List<User> userList = iUserService.listByMap(params);
+			List<User> userList = (List<User>) iUserService.listByMap(params);
 			if(userList!=null && userList.size() > 0){
 				User user = userList.get(0);
 				if(MD5.verify(user.getAccount(),password,user.getPassword())){
@@ -105,8 +106,8 @@ private final Logger logger = LoggerFactory.getLogger(UserController.class);
 	@RequestMapping(method=RequestMethod.GET,value="/toAdd")
 	public String userAdd(HttpServletRequest request,HttpServletResponse response) {
 		try {
-
-
+			List<Role> roleList = roleService.list();
+			request.setAttribute("roleList",roleList);
 		}catch (Exception ex){
 		    logger.error("userAdd -=- {}",ex.toString());
 		}
@@ -132,7 +133,7 @@ private final Logger logger = LoggerFactory.getLogger(UserController.class);
 	}
 
 	/**
-	 * 跳转修改页面
+	 * 查看页面
 	 * @param request
 	 * @param id  实体ID
 	 * @return
@@ -201,7 +202,7 @@ private final Logger logger = LoggerFactory.getLogger(UserController.class);
 	public AjaxResponse userDelete(String id){
 		AjaxResponse result = null;
 		try {
-		    iUserService.delete(id);
+		    iUserService.removeById(id);
 			result = AjaxResponse.ok();
 		}catch (Exception e){
 			e.printStackTrace();
@@ -217,18 +218,19 @@ private final Logger logger = LoggerFactory.getLogger(UserController.class);
 	 * @return  0 失败  1 成功
 	 */
 	@ResponseBody
-	@RequestMapping(method= RequestMethod.POST,value="/userBatchDelete")
-	public int deleteBatchIds(String item){
-
-		int count = 0;
+	@RequestMapping(method= RequestMethod.POST,value="/batchDelete")
+	public AjaxResponse deleteBatchIds(String item){
+		AjaxResponse result = null;
 		try {
 			List<String> ids = (List<String>) JSON.parse(item);
-		count = iUserService.deleteByListId(ids) ? 1 : 0;
+		    iUserService.removeByIds(ids);
+			result = AjaxResponse.ok();
 		}catch (Exception e){
 			e.printStackTrace();
-		    logger.error("userBatchDelete -=- {}",e.toString());
+			logger.error("userDelete -=- {}",e.toString());
+			result = AjaxResponse.errorMsg(e.getMessage());
 		}
-		return count;
+		return result;
 	}
 
 
