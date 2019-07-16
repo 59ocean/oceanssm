@@ -29,9 +29,8 @@ To change this template use File | Settings | File Templates.
 <div class="layui-fluid">
     <div class="layui-row">
         <form class="layui-form">
-
-                
-                                <div class="layui-form-item">
+            <input type="hidden" name="parentId" id="parentId">
+            <div class="layui-form-item">
             <label for="L_name" class="layui-form-label">
                 <span class="x-red">*</span>菜单名
             </label>
@@ -41,28 +40,21 @@ To change this template use File | Settings | File Templates.
         </div>
                                 <div class="layui-form-item">
             <label for="L_parentId" class="layui-form-label">
-                <span class="x-red">*</span>父菜单id
+                <span class="x-red">*</span>上级菜单
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_parentId" name="parentId" required="" autocomplete="off" class="layui-input">
+                <input type="text" id="tree" id="L_parentId" lay-filter="tree"  required="" autocomplete="off" class="layui-input">
             </div>
         </div>
-                                <div class="layui-form-item">
-            <label for="L_type" class="layui-form-label">
-                <span class="x-red">*</span>类型：1、菜单 2、功能
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" id="L_type" name="type" required="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-                                <div class="layui-form-item">
+
+            <%--<div class="layui-form-item">
             <label for="L_icon" class="layui-form-label">
                 <span class="x-red">*</span>图标
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="L_icon" name="icon" required="" autocomplete="off" class="layui-input">
             </div>
-        </div>
+        </div>--%>
                                 <div class="layui-form-item">
             <label for="L_menuSort" class="layui-form-label">
                 <span class="x-red">*</span>菜单排序
@@ -92,7 +84,14 @@ To change this template use File | Settings | File Templates.
         </form>
     </div>
 </div>
-<script>layui.use(['form', 'layer','jquery'],
+<script>
+    layui.config({
+        base: "${baseUrl}/lib/layui/module/"
+    }).extend({
+        treeSelect: "treeSelect/treeSelect"
+    });
+
+    layui.use(['form','treeSelect', 'layer','jquery'],
         function() {
             $ = layui.jquery;
             var form = layui.form,
@@ -112,7 +111,38 @@ To change this template use File | Settings | File Templates.
                     }
                 }
             });
+            var treeSelect= layui.treeSelect;
 
+            treeSelect.render({
+                // 选择器
+                elem: '#tree',
+                // 数据
+                data: '${baseUrl}/menu/getTreeMenu',
+                // 异步加载方式：get/post，默认get
+                type: 'get',
+                // 占位符
+                placeholder: '请选择上级菜单',
+                // 是否开启搜索功能：true/false，默认false
+                search: true,
+                // 点击回调
+                click: function(d){
+                    console.log(d.current.id);
+                    $('#parentId').val(d.current.id)
+                },
+                // 加载完成后的回调函数
+                success: function (d) {
+                    console.log(d);
+//                选中节点，根据id筛选
+//                treeSelect.checkNode('tree', 3);
+
+//                获取zTree对象，可以调用zTree方法
+//                var treeObj = treeSelect.zTree('tree');
+//                console.log(treeObj);
+
+//                刷新树结构
+//                treeSelect.refresh();
+                }
+            });
             //监听提交
             form.on('submit(add)',
                     function(data) {

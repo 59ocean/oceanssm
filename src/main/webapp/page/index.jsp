@@ -114,22 +114,22 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('统计页面','welcome1.html')">
+                        <a onclick="xadmin.add_tab('统计页面','${baseUrl}/xadmin/X-admin/welcome1.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>统计页面</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('会员列表(静态表格)','member-list.html')">
+                        <a onclick="xadmin.add_tab('会员列表(静态表格)','${baseUrl}/xadmin/X-admin/member-list.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>会员列表(静态表格)</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('会员列表(动态表格)','member-list1.html',true)">
+                        <a onclick="xadmin.add_tab('会员列表(动态表格)','${baseUrl}/xadmin/X-admin/member-list1.html',true)">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>会员列表(动态表格)</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('会员删除','member-del.html')">
+                        <a onclick="xadmin.add_tab('会员删除','${baseUrl}/xadmin/X-admin/member-del.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>会员删除</cite></a>
                     </li>
@@ -140,12 +140,12 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('会员删除','member-del.html')">
+                                <a onclick="xadmin.add_tab('会员删除','${baseUrl}/xadmin/X-admin/member-del.html')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>会员删除</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('等级管理','member-list1.html')">
+                                <a onclick="xadmin.add_tab('等级管理','${baseUrl}/xadmin/X-admin/member-list1.html')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>等级管理</cite></a>
                             </li>
@@ -160,12 +160,12 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('订单列表','order-list.html')">
+                        <a onclick="xadmin.add_tab('订单列表','${baseUrl}/xadmin/X-admin/order-list.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>订单列表</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('订单列表1','order-list1.html')">
+                        <a onclick="xadmin.add_tab('订单列表1','${baseUrl}/xadmin/X-admin/order-list1.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>订单列表1</cite></a>
                     </li>
@@ -178,7 +178,7 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('多级分类','cate.html')">
+                        <a onclick="xadmin.add_tab('多级分类','${baseUrl}/xadmin/X-admin/cate.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>多级分类</cite></a>
                     </li>
@@ -191,7 +191,7 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('三级地区联动','city.html')">
+                        <a onclick="xadmin.add_tab('三级地区联动','${baseUrl}/xadmin/X-admin/city.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>三级地区联动</cite></a>
                     </li>
@@ -204,22 +204,22 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('管理员列表','admin-list.html')">
+                        <a onclick="xadmin.add_tab('管理员列表','${baseUrl}/xadmin/X-admin/admin-list.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>管理员列表</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('角色管理','admin-role.html')">
+                        <a onclick="xadmin.add_tab('角色管理','${baseUrl}/xadmin/X-admin/admin-role.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>角色管理</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('权限分类','admin-cate.html')">
+                        <a onclick="xadmin.add_tab('权限分类','${baseUrl}/xadmin/X-admin/admin-cate.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>权限分类</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('权限管理','admin-rule.html')">
+                        <a onclick="xadmin.add_tab('权限管理','${baseUrl}/xadmin/X-admin/admin-rule.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>权限管理</cite></a>
                     </li>
@@ -232,27 +232,27 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('拆线图','echarts1.html')">
+                        <a onclick="xadmin.add_tab('拆线图','${baseUrl}/xadmin/X-admin/echarts1.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>拆线图</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('拆线图','echarts2.html')">
+                        <a onclick="xadmin.add_tab('拆线图','${baseUrl}/xadmin/X-admin/echarts2.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>拆线图</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('地图','echarts3.html')">
+                        <a onclick="xadmin.add_tab('地图','${baseUrl}/xadmin/X-admin/echarts3.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>地图</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('饼图','echarts4.html')">
+                        <a onclick="xadmin.add_tab('饼图','${baseUrl}/xadmin/X-admin/echarts4.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>饼图</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('雷达图','echarts5.html')">
+                        <a onclick="xadmin.add_tab('雷达图','${baseUrl}/xadmin/X-admin/echarts5.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>雷达图</cite></a>
                     </li>
@@ -262,12 +262,12 @@
                             <cite>k线图</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('热力图','echarts7.html')">
+                        <a onclick="xadmin.add_tab('热力图','${baseUrl}/xadmin/X-admin/echarts7.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>热力图</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('仪表图','echarts8.html')">
+                        <a onclick="xadmin.add_tab('仪表图','${baseUrl}/xadmin/X-admin/echarts8.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>仪表图</cite></a>
                     </li>
@@ -280,7 +280,7 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('图标对应字体','unicode.html')">
+                        <a onclick="xadmin.add_tab('图标对应字体','${baseUrl}/xadmin/X-admin/unicode.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>图标对应字体</cite></a>
                     </li>

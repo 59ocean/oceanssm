@@ -40,7 +40,9 @@
                     </form>
                 </div>
                 <div class="layui-card-header">
+<%--
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+--%>
                     <button class="layui-btn" onclick="xadmin.open('添加角色','${baseUrl}/role/toAdd',500,400)"><i class="layui-icon"></i>添加</button>
                 </div>
                 <div class="layui-card-body ">

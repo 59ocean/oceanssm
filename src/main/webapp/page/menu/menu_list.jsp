@@ -22,7 +22,7 @@
 <div class="x-nav">
           <span class="layui-breadcrumb">
             <a href="">系统管理</a>
-            <a href="">管理</a>
+            <a href="">菜单管理</a>
             <a>
               <cite>列表</cite></a>
           </span>
@@ -33,17 +33,7 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5">
-                        <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="name"  placeholder="请输入名" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" lay-submit lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
 
-                        </div>
-                    </form>
-                </div>
                 <script type="text/html" id="toolbarDemo">
                     <div class = "layui-btn-container" >
                         <button class="layui-btn" onclick="xadmin.open('菜单用户','${baseUrl}/menu/toAdd',500,400)"><i class="layui-icon"></i>添加</button>
@@ -58,9 +48,9 @@
 </div>
 </body>
 <script type="text/html" id="toobar">
-    <a title="查看"  onclick="xadmin.open('查看','${baseUrl}/menu/view?id={{d.id}}',600,400)" href="javascript:;">
+ <%--   <a title="查看"  onclick="xadmin.open('查看','${baseUrl}/menu/view?id={{d.id}}',600,400)" href="javascript:;">
         <i class="layui-icon">&#xe642;</i>
-    </a>
+    </a>--%>
     <a title="编辑"  onclick="xadmin.open('编辑','${baseUrl}/menu/toEdit?id={{d.id}}',600,400)" href="javascript:;">
         <i class="layui-icon">&#xe642;</i>
     </a>
@@ -116,12 +106,7 @@
                     }}
                 ,{field:'menuUrl',width:'20%', title: '菜单url'},
                 {width:'20%',title: '操作', align:'center'/*toolbar: '#barDemo'*/
-                    ,templet: function(d){
-                        var html='';
-                        var addBtn='<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="add">添加</a>';
-                        var delBtn='<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
-                        return addBtn+delBtn;
-                    }
+                    ,toolbar:'#toobar'
                 }
             ]]
             ,page:false
@@ -129,8 +114,9 @@
 
         treeGrid.on('tool('+tableId+')',function (obj) {
             if(obj.event === 'del'){//删除行
+                console.log(obj)
                 del(obj);
-            }else if(obj.event==="add"){//添加行
+            }else if(obj.event==="edit"){//添加行
                 add(obj.data);
             }
         });

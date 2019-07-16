@@ -15,9 +15,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @MapperScan("com.ocean.mapper")
 public class OceanssmApplication extends SpringBootServletInitializer {
-
-
-
 	public static void main (String[] args) {
 		SpringApplication.run(OceanssmApplication.class, args);
 	}

@@ -17,47 +17,36 @@
     <div class="layui-row">
         <form class="layui-form">
             <input name="id" type="hidden" value="${menu.id}">
-                        
+            <input name="parentId" id="parentId" type="hidden" value="${menu.id}">
+
                                                 <div class="layui-form-item">
                 <label for="L_name" class="layui-form-label">
                     <span class="x-red">*</span>菜单名</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="L_name" value="${menu.name" name="name" required="" autocomplete="off" class="layui-input">
+                    <input type="text" id="L_name" value="${menu.name}" name="name" required="" autocomplete="off" class="layui-input">
                 </div>
             </div>
                                                 <div class="layui-form-item">
                 <label for="L_parentId" class="layui-form-label">
-                    <span class="x-red">*</span>父菜单id</label>
+                    <span class="x-red">*</span>上级菜单${menu.parentId}</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="L_parentId" value="${menu.parentId" name="parentId" required="" autocomplete="off" class="layui-input">
+        <input type="text" id="tree" id="L_parentId" lay-filter="tree"  required="" autocomplete="off" class="layui-input">
                 </div>
             </div>
-                                                <div class="layui-form-item">
-                <label for="L_type" class="layui-form-label">
-                    <span class="x-red">*</span>类型：1、菜单 2、功能</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="L_type" value="${menu.type" name="type" required="" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-                                                <div class="layui-form-item">
-                <label for="L_icon" class="layui-form-label">
-                    <span class="x-red">*</span>图标</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="L_icon" value="${menu.icon" name="icon" required="" autocomplete="off" class="layui-input">
-                </div>
-            </div>
+
+
                                                 <div class="layui-form-item">
                 <label for="L_menuSort" class="layui-form-label">
                     <span class="x-red">*</span>菜单排序</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="L_menuSort" value="${menu.menuSort" name="menuSort" required="" autocomplete="off" class="layui-input">
+                    <input type="text" id="L_menuSort" value="${menu.menuSort}" name="menuSort" required="" autocomplete="off" class="layui-input">
                 </div>
             </div>
                                                 <div class="layui-form-item">
                 <label for="L_menuUrl" class="layui-form-label">
                     <span class="x-red">*</span>菜单url</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="L_menuUrl" value="${menu.menuUrl" name="menuUrl" required="" autocomplete="off" class="layui-input">
+                    <input type="text" id="L_menuUrl" value="${menu.menuUrl}" name="menuUrl" required="" autocomplete="off" class="layui-input">
                 </div>
             </div>
                         
@@ -71,26 +60,66 @@
         </form>
     </div>
 </div>
-<script>layui.use(['form', 'layer','jquery'],
-        function() {
-            $ = layui.jquery;
-            var form = layui.form,
-                    layer = layui.layer;
+<script>
+layui.config({
+        base: "${baseUrl}/lib/layui/module/"
+                }).extend({
+                treeSelect: "treeSelect/treeSelect"
+        });
 
-            //自定义验证规则
-            form.verify({
-                nikename: function(value) {
-                    if (value.length < 5) {
-                        return '昵称至少得5个字符啊';
-                    }
-                },
-                pass: [/(.+){6,12}$/, '密码必须6到12位'],
-                repass: function(value) {
-                    if ($('#L_pass').val() != $('#L_repass').val()) {
-                        return '两次密码不一致';
-                    }
-                }
-            });
+        layui.use(['form','treeSelect', 'layer','jquery'],
+        function() {
+        $ = layui.jquery;
+        var form = layui.form,
+        layer = layui.layer;
+
+        //自定义验证规则 对应着lay-verify的
+        form.verify({
+        nikename: function(value) {
+        if (value.length < 5) {
+                return '昵称至少得5个字符啊';
+        }
+        },
+        pass: [/(.+){6,12}$/, '密码必须6到12位'],
+        repass: function(value) {
+        if ($('#L_pass').val() != $('#L_repass').val()) {
+        return '两次密码不一致';
+        }
+        }
+        });
+        var parentId='${menu.parentId}'
+        var treeSelect= layui.treeSelect;
+
+                treeSelect.render({
+        // 选择器
+        elem: '#tree',
+        // 数据
+        data: '${baseUrl}/menu/getTreeMenu2?id='+parentId,
+        // 异步加载方式：get/post，默认get
+        type: 'get',
+        // 占位符
+        placeholder: '请选择上级菜单',
+        // 是否开启搜索功能：true/false，默认false
+        search: true,
+        // 点击回调
+        click: function(d){
+        console.log(d.current.id);
+        $('#parentId').val(d.current.id)
+        },
+        // 加载完成后的回调函数
+        success: function (d) {
+        console.log(d);
+        //                选中节点，根据id筛选
+        //                treeSelect.checkNode('tree', 3);
+
+        //                获取zTree对象，可以调用zTree方法
+        //                var treeObj = treeSelect.zTree('tree');
+        //                console.log(treeObj);
+
+        //                刷新树结构
+        //                treeSelect.refresh();
+        }
+        });
 
             //监听提交
             form.on('submit(add)',

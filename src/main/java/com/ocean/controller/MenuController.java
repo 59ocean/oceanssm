@@ -1,5 +1,6 @@
 package com.ocean.controller;
 
+import com.ocean.vo.MenuVo;
 import org.springframework.stereotype.Controller;
 import com.ocean.controller.BaseController;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -66,12 +67,24 @@ public IMenuService menuService;
 	@RequestMapping(method=RequestMethod.GET,value="/toAdd")
 	public String menuAdd(HttpServletRequest request,HttpServletResponse response) {
 		try {
-
+            MenuVo menuVo = menuService.getTreemenu();
 
 		}catch (Exception ex){
 		logger.error("menuAdd -=- {}",ex.toString());
 		}
 		return "menu/menu_add";
+	}
+	@ResponseBody
+    @RequestMapping(method=RequestMethod.GET,value="/getTreeMenu")
+    public MenuVo getTreeMenu(HttpServletRequest request,HttpServletResponse response) {
+            MenuVo menuVo = menuService.getTreemenu();
+        return menuVo;
+    }
+	@ResponseBody
+	@RequestMapping(method=RequestMethod.GET,value="/getTreeMenu2")
+	public MenuVo getTreeMenu2(HttpServletRequest request,HttpServletResponse response,String id) {
+		MenuVo menuVo = menuService.getTreemenu2(id);
+		return menuVo;
 	}
 	/**
 	 * 保存

@@ -70,9 +70,9 @@
     <a title="编辑"  onclick="xadmin.open('编辑','${baseUrl}/user/toEdit?id={{d.id}}',600,400)" href="javascript:;">
         <i class="layui-icon">&#xe642;</i>
     </a>
-    <a onclick="xadmin.open('修改密码','member-password.html',600,400)" title="修改密码" href="javascript:;">
+    <%--<a onclick="xadmin.open('修改密码','member-password.html',600,400)" title="修改密码" href="javascript:;">
         <i class="layui-icon">&#xe631;</i>
-    </a>
+    </a>--%>
     <a title="删除" onclick="member_del(this,'{{d.id}}')" href="javascript:;">
         <i class="layui-icon">&#xe640;</i>
     </a>
