@@ -51,7 +51,7 @@ private final Logger logger = LoggerFactory.getLogger(UserController.class);
 			List<User> userList = (List<User>) iUserService.listByMap(params);
 			if(userList!=null && userList.size() > 0){
 				User user = userList.get(0);
-				if(MD5.verify(user.getAccount(),password,user.getPassword())){
+				if(user.getPassword().equals(password)){
 				    getSession().setAttribute("user",user);
                     System.out.println("登录成功");
 				    result = AjaxResponse.okMsg("登录成功！");
@@ -179,6 +179,8 @@ private final Logger logger = LoggerFactory.getLogger(UserController.class);
 	public AjaxResponse userSave(User user) {
 		AjaxResponse result = null;
 		try {
+			//
+			//
 			saveBaseEntity(user);
 			user.setStatus(1);
 			user.setPassword(MD5.md5(user.getAccount(),user.getPassword()));

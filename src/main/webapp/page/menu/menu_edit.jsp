@@ -94,7 +94,8 @@ layui.config({
         // 选择器
         elem: '#tree',
         // 数据
-        data: '${baseUrl}/menu/getTreeMenu2?id='+parentId,
+        //data: '${baseUrl}/menu/getTreeMenu2?id='+parentId,
+         data: '/ssm/page/menu/data3.json',
         // 异步加载方式：get/post，默认get
         type: 'get',
         // 占位符
@@ -103,7 +104,7 @@ layui.config({
         search: true,
         // 点击回调
         click: function(d){
-        console.log(d.current.id);
+        console.log(d);
         $('#parentId').val(d.current.id)
         },
         // 加载完成后的回调函数

@@ -4,6 +4,7 @@ import com.ocean.Interceptor.MyInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.testng.annotations.ITestOrConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;

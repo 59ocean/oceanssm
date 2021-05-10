@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * @author chenhy
  */
-@TableName("t_user")
+@TableName("sys_user")
 public class User extends BaseEntity {
     @TableId(type = IdType.UUID)
     private String id;

@@ -91,9 +91,9 @@
             ,treeShowName:'name'//以树形式显示的字段
             ,cols: [[
 
-                {field:'name',width:'25%',align : 'center', title: '菜单名称'}
+                {field:'name',width:'20%',align : 'center', title: '菜单名称'}
                 ,{field:'menuSort',width:'10%',align : 'center', title: '排序'},
-                {field:'icon',width:'15%',align : 'center', title: '图标'},
+                {field:'icon',width:'10%',align : 'center', title: '图标'},
                 {field:'type',width:'10%', align : 'center',title: '菜单类型',templet:function (d) {
                       var html='';
                       var text = '';

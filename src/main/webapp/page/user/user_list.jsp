@@ -97,7 +97,7 @@
             page : true,//是否开启分页
             limits : [ 5, 10, 20, 30, 50, 100 ],
             limit : 5, //默认采用20
-            cellMinWidth: 120,
+            cellMinWidth: 150,
             toolbar: '#toolbarDemo',
             even : true, //开启隔行背景
             id : 'searchID',
@@ -111,11 +111,11 @@
             },
             cols : [ [ //标题栏
                 {checkbox: true},
-                {field : 'account',title : '账号',align : 'center',sort : true,width : '15%'},
-                {field : 'username',title : '用户名称',align : 'center',sort : true,width : '15%'},
-                {field : 'phone',title : '手机号码',align : 'center',sort : true,width : '15%'},
-                {field : 'email',title : '邮箱',align : 'center',sort : true,width : '12%'},
-                {field : 'remark',title : '备注',align : 'center',sort : true,width : '12%'},
+                {field : 'account',title : '账号',align : 'center',sort : true,width : '20%'},
+                {field : 'username',title : '用户名称',align : 'center',sort : true,width : '20%'},
+                {field : 'phone',title : '手机号码',align : 'center',sort : true,width : '20%'},
+                {field : 'email',title : '邮箱',align : 'center',sort : true,width : '20%'},
+                {field : 'remark',title : '备注',align : 'center',sort : true,width : '30%'},
                 {fixed : 'right',title : '操作',align : 'center',toolbar : '#toobar',width : '20%'}
             ] ]
         });

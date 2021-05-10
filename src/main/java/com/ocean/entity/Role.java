@@ -16,7 +16,7 @@ import java.io.Serializable;
  * @author chenhy
  * @since 2019-07-13
  */
-@TableName("t_role")
+@TableName("sys_role")
 public class Role extends BaseEntity<Role> {
 
     private static final long serialVersionUID = 1L;

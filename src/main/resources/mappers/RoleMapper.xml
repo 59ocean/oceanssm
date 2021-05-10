@@ -25,7 +25,7 @@
         <select id="selectByQuery" resultMap="BaseResultMap" parameterType="com.ocean.query.RoleQuery">
         select
         <include refid="Base_Column_List" />
-        from t_role t
+        from sys_role t
         where 1=1
         <if test="query.roleName != null">
             and t.role_name like CONCAT(CONCAT('%', #{query.roleName}), '%')
